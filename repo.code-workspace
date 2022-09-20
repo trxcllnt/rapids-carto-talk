@@ -1,0 +1,21 @@
+{
+	"folders": [
+		{
+			"name": "repo",
+			"path": "."
+		},
+		{
+            "name": "json-graph",
+			"path": "modules/json-graph",
+		},
+		{
+            "name": "nyc-taxi",
+			"path": "modules/nyc-taxi",
+		},
+		{
+            "name": "marine-ais",
+			"path": "modules/marine-ais",
+		}
+	],
+  "settings": {}
+}

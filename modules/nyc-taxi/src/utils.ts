@@ -1,0 +1,50 @@
+// Copyright (c) 2022, NVIDIA CORPORATION.
+//
+// Licensed under the Apache License, Version 2.0 (the "License");
+// you may not use this file except in compliance with the License.
+// You may obtain a copy of the License at
+//
+//     http://www.apache.org/licenses/LICENSE-2.0
+//
+// Unless required by applicable law or agreed to in writing, software
+// distributed under the License is distributed on an "AS IS" BASIS,
+// WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+// See the License for the specific language governing permissions and
+// limitations under the License.
+
+import { OrthographicView } from '@deck.gl/core/typed';
+
+export const darkOrthoView = new OrthographicView({
+  flipY: false,
+  clear: { color: [...[46, 46, 46].map((x) => x / 255), 1] }
+} as any);
+
+export function centerOnBbox(
+  [minX, maxX, minY, maxY]: [number, number, number, number],
+  [parentWidth, parentHeight]: [number, number] = [window.outerWidth, window.outerHeight]
+) {
+  const width = Math.max(maxX - minX, 1);
+  const height = Math.max(maxY - minY, 1);
+  if ((width === width) && (height === height)) {
+    const xRatio = width / parentWidth;
+    const yRatio = height / parentHeight;
+    let zoom: number;
+    if (xRatio > yRatio) {
+      zoom = ((width > parentWidth) ? -(width / parentWidth) : (parentWidth / width)) * .9;
+    } else {
+      zoom = ((height > parentHeight) ? -(height / parentHeight) : (parentHeight / height)) * .9;
+    }
+    return {
+      minZoom: Number.NEGATIVE_INFINITY,
+      maxZoom: Number.POSITIVE_INFINITY,
+      zoom: Math.log2(Math.abs(zoom)) * Math.sign(zoom),
+      target: [minX + (width * .5), minY + (height * .5), 0],
+    };
+  }
+  return {
+    zoom: 1,
+    target: [0, 0, 0],
+    minZoom: Number.NEGATIVE_INFINITY,
+    maxZoom: Number.POSITIVE_INFINITY,
+  };
+}

@@ -1,0 +1,30 @@
+{
+    "include": [
+        "*.ts",
+        "src/**/*.ts",
+        "src/**/*.tsx",
+    ],
+    "compilerOptions": {
+
+        "outDir": "lib",
+        "target": "ESNext",
+        "module": "CommonJS",
+        "moduleResolution": "Node",
+
+        "sourceMap": true,
+        "noEmitHelpers": true,
+        "noEmitOnError": true,
+        "inlineSources": false,
+        "inlineSourceMap": false,
+
+        "jsx": "react",
+        "strict": true,
+        "skipLibCheck": true,
+        "skipDefaultLibCheck": true,
+        "lib": [
+            "dom",
+            "esnext",
+            "esnext.asynciterable"
+        ],
+    }
+}

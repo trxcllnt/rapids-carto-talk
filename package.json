@@ -1,0 +1,12 @@
+{
+  "private": true,
+  "name": "carto-rapids-talk",
+  "version": "1.0.0",
+  "author": "Paul Taylor <paul.e.taylor@me.com>",
+  "license": "Apache-2.0",
+  "workspaces": [
+    "modules/json-graph",
+    "modules/nyc-taxi",
+    "modules/marine-ais"
+  ]
+}

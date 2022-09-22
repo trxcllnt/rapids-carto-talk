@@ -91,7 +91,7 @@ const deck = new MapboxOverlay({
       stroked: true,
       pickable: true,
       autoHighlight: true,
-      lineWidthMinPixels: 5,
+      lineWidthMinPixels: 3,
       getLineWidth: 1,
       getFillColor: [0, 0, 0, 0],
       getLineColor: [255, 255, 255, 135],

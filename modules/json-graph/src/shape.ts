@@ -23,11 +23,11 @@ export type ShapedEdges = ReturnType<typeof shapeEdges>;
 
 export function shapeGraph({ edges: inEdges, nodes: inNodes }: JSONGraph) {
 
-  // inEdges = inEdges.gather(cudf.Series.sequence({
-  //   init: 0,
-  //   step: 2,
-  //   size: Math.min(1e6, inEdges.numRows / 2)
-  // }));
+  inEdges = inEdges.gather(cudf.Series.sequence({
+    init: 0,
+    step: 2,
+    size: Math.min(1e5 * 2, inEdges.numRows / 2)
+  }));
 
   const graph = cugraph.Graph.fromEdgeList(
     inEdges.get('source'), inEdges.get('target')

@@ -39,6 +39,8 @@ ${indent(new cudf.DataFrame(nodes.attributes as any).toString({ maxRows: 20 }))}
 `, () => r());
     });
 
+    await new Promise((r) => setTimeout(r, 10));
+
     ++i;
 
     onAfterRender();

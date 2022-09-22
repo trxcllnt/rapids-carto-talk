@@ -14,6 +14,8 @@
 
 import * as jsdom from '@rapidsai/jsdom';
 
-const dom = jsdom.RapidsJSDOM.fromReactComponent('./src/graph');
+const dom = jsdom.RapidsJSDOM.fromReactComponent('./src/graph', {
+  glfwOptions: { width: 1920, height: 1080 },
+});
 
 dom.window.addEventListener('close', () => process.exit(0), { once: true });

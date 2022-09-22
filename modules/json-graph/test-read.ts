@@ -25,8 +25,8 @@ parse_json_print_results('CPU', readJSONCPU);
 
 parse_json_print_results('GPU', readJSONGPU);
 
-initPoolAllocator();
-parse_json_print_results('RMM', readJSONGPU);
+// initPoolAllocator();
+// parse_json_print_results('RMM', readJSONGPU);
 
 
 function parse_json_print_results(suf: string, readJSON: typeof readJSONCPU | typeof readJSONGPU) {

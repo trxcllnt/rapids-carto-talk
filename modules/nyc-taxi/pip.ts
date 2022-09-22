@@ -15,7 +15,7 @@
 import { RapidsJSDOM } from '@rapidsai/jsdom';
 
 const dom = new RapidsJSDOM({
-  glfwOptions: { width: 1600, height: 1200 },
+  glfwOptions: { width: 1920, height: 1080 },
 });
 
 dom.window.evalFn(async () => await import('./src/render-pip'));

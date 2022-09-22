@@ -23,11 +23,11 @@ import { makeQuadtree } from './src/make-tree';
 
 const { bbox, points } = readPoints();
 
-rmm.setCurrentDeviceResource(new rmm.PoolMemoryResource(
-  rmm.getCurrentDeviceResource(),
-  Number(1n << 32n), // 8 GB
-  Number(1n << 34n) // 16 GB
-));
+// rmm.setCurrentDeviceResource(new rmm.PoolMemoryResource(
+//   rmm.getCurrentDeviceResource(),
+//   Number(1n << 32n), // 8 GB
+//   Number(1n << 34n) // 16 GB
+// ));
 
 console.time(`construct quadtree for ${points.numRows.toLocaleString()} points`);
 
@@ -36,3 +36,6 @@ const quadtree = makeQuadtree({ bbox, points });
 console.timeEnd(`construct quadtree for ${points.numRows.toLocaleString()} points`);
 
 console.log(require('util').inspect((quadtree as any)._quadtree));
+
+
+setTimeout(() => {}, 5000)

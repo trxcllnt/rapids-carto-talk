@@ -22,7 +22,7 @@ const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..
 
 export function readPolys(path = Path.resolve(__dirname, up, 'data', 'polys.arrow')) {
 
-  process.stdout.write('readPolys path: ' + path + '\n');
+  console.log('readPolys path: ' + path);
 
   const table = arrow.tableFromIPC<{
     index: cudf.Int32,

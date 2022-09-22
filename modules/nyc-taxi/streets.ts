@@ -18,6 +18,6 @@ const dom = new RapidsJSDOM({
   glfwOptions: { width: 1600, height: 1200 },
 });
 
-dom.window.evalFn(async () => await import('./src/render-p2np'));
+dom.window.evalFn(async () => await import('./src/render-streets'));
 
 dom.window.addEventListener('close', () => process.exit(0), { once: true });

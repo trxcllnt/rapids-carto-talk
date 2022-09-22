@@ -80,8 +80,8 @@ function taxiZonesLayer(
     lineWidthMinPixels: 1,
     getElevation: ({ id }) => id,
     getPolygon: ({ rings }) => rings,
-    getFillColor: ({ color: [r, g, b] }) => [r, g, b, 15] as any,
-    getLineColor: ({ color: [r, g, b] }) => [r, g, b, 255] as any,
+    getFillColor: ({ color: [r, g, b] }: any) => [r, g, b, 15] as any,
+    getLineColor: ({ color: [r, g, b] }: any) => [r, g, b, 255] as any,
     onHover: ({ index, picked, object }) => {
       if (!picked || index === -1) {
         deck.setProps({
@@ -94,13 +94,22 @@ function taxiZonesLayer(
         (object && typeof object.id === 'number') &&
         (object.id !== hoveredPolygonIndex)
       ) {
+        const { hoveredPolyId, polyPointPairs } = cudf.scope(() => {
 
-        // Gather a dataframe of only the hovered polygon
-        const hoveredPolyId = cudf.Series.sequence({ init: object.id, size: 1 });
-        const hoveredPoly = polys.gather(hoveredPolyId).get('polygon');
+          // Gather a dataframe of only the hovered polygon
+          const hoveredPolyId = cudf.Series.sequence({ init: object.id, size: 1 });
+          const hoveredPoly = polys.gather(hoveredPolyId).get('polygon');
 
-        // Spatial join for points intersect w/ the hovered polygon
-        const polyPointPairs = quadtree.pointInPolygon(hoveredPoly);
+          console.time('point in polygon runtime');
+
+          // Spatial join for points intersect w/ the hovered polygon
+          const polyPointPairs = quadtree.pointInPolygon(hoveredPoly);
+
+          console.timeEnd('point in polygon runtime');
+          console.log(`points in poly ${object.id}:`, polyPointPairs.numRows.toLocaleString());
+
+          return { hoveredPolyId, polyPointPairs };
+        }, [polys, quadtree, palette]);
 
         deck.setProps({
           layers: [
@@ -122,7 +131,7 @@ function taxiPointsLayer(
   pointIds = cudf.Series.sequence({ init: 0, size: 0, type: new cudf.Uint32 })
 ) {
   const length = pointIds.length;
-  const props = { ...defaultPointProps, numNodes: length };
+  const props = { ...defaultPointProps(), numNodes: length };
 
   if (length > 0) {
     // Gather colors using the poly ids from spatial join results
@@ -154,33 +163,35 @@ import { log as deckLog } from '@deck.gl/core/typed';
 deckLog.level = 0;
 deckLog.enable(false);
 
-const defaultPointProps = {
+function defaultPointProps() {
+  return {
 
-  nodesVisible: true,
-  nodesFilled: true,
-  nodesStroked: false,
-  nodeRadiusScale: 10,
-  nodeRadiusMinPixels: 0,
-  nodeRadiusMaxPixels: 1,
+    nodesVisible: true,
+    nodesFilled: true,
+    nodesStroked: false,
+    nodeRadiusScale: 10,
+    nodeRadiusMinPixels: 0,
+    nodeRadiusMaxPixels: 1,
 
-  numEdges: 0,
-  edgesVisible: false,
+    numEdges: 0,
+    edgesVisible: false,
 
-  _subLayerProps: {
-    'NodeLayer-0': { pickable: false, autoHighlight: false, },
-    'EdgeLayer-0': { pickable: false, autoHighlight: false, },
-  },
-  data: {
-    edges: {
-      length: 0,
-      offset: 0,
-      attributes: {}
+    _subLayerProps: {
+      'NodeLayer-0': { pickable: false, autoHighlight: false, },
+      'EdgeLayer-0': { pickable: false, autoHighlight: false, },
     },
-    nodes: {
-      length: 0,
-      offset: 0,
-      attributes: {}
-    }
-  },
+    data: {
+      edges: {
+        length: 0,
+        offset: 0,
+        attributes: {}
+      },
+      nodes: {
+        length: 0,
+        offset: 0,
+        attributes: {}
+      }
+    },
 
-};
+  };
+}

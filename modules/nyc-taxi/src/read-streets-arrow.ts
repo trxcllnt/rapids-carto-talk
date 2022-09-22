@@ -14,28 +14,25 @@
 
 import * as fs from 'fs';
 import * as Path from 'path';
+import * as arrow from 'apache-arrow';
 import * as cudf from '@rapidsai/cudf';
-import * as cuspatial from '@rapidsai/cuspatial';
 
 const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
 
-export function readPoints(path = Path.resolve(__dirname, up, 'data', 'points.arrow')) {
+type NYCCenterlineSchema = {
+  name: cudf.Utf8String,
+  multiline: cudf.List<cudf.List<cudf.Struct<{
+    x: cudf.Float64,
+    y: cudf.Float64
+  }>>>
+};
 
-  type Point = cuspatial.Point<cudf.Float32>['TChildren'];
+export function readStreets(path = Path.resolve(__dirname, up, 'data', 'centerline.arrow')) {
 
-  const points = cudf.scope(() =>
-    cudf.DataFrame
-      .fromArrow<Point>(fs.readFileSync(path))
-      .head(1e8 * 1.1)
-  );
+  const table = arrow.tableFromIPC<NYCCenterlineSchema>(fs.readFileSync(path));
 
-  console.log(`read ${points.numRows.toLocaleString()} points`);
-
-  const [xMin, xMax] = points.get('x').minmax();
-  const [yMin, yMax] = points.get('y').minmax();
-
-  return {
-    bbox: [xMin, xMax, yMin, yMax] as [number, number, number, number],
-    points
-  };
+  return new cudf.DataFrame({
+    name: table.getChild('name')!,
+    multiline: table.getChild('multiline')!
+  });
 }

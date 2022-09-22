@@ -33,17 +33,30 @@ export function readPoints(
     .map((name) => Path.join(base, name))
 ) {
 
-  const data = cudf.DataFrame.readParquet<TaxiSchema>(paths, {
-    columns: ['Start_Lon', 'Start_Lat', 'End_Lon', 'End_Lat']
+  const data = cudf.scope(() => {
+    const data = cudf.DataFrame.readParquet<TaxiSchema>(paths, {
+      columns: ['Start_Lon', 'Start_Lat', 'End_Lon', 'End_Lat']
+    });
+
+    // filter out bad data
+
+    const xMask = data.get('End_Lon').ge(-180)
+      .logicalAnd(data.get('End_Lon').le(180))
+      .logicalAnd(data.get('Start_Lon').ge(-180))
+      .logicalAnd(data.get('Start_Lon').le(180));
+
+    const yMask = data.get('End_Lat').ge(-90)
+      .logicalAnd(data.get('End_Lat').le(90))
+      .logicalAnd(data.get('Start_Lat').ge(-90))
+      .logicalAnd(data.get('Start_Lat').le(90));
+
+    return data.filter(xMask.logicalAnd(yMask));
   });
 
   const x = data.select(['Start_Lon', 'End_Lon']).interleaveColumns();
   const y = data.select(['Start_Lat', 'End_Lat']).interleaveColumns();
 
-  const yMask = y.ge(-90).logicalAnd(y.le(90));
-  const xMask = x.ge(-180).logicalAnd(x.le(180));
-
-  const points = new cudf.DataFrame({ x, y, }).filter(xMask.logicalAnd(yMask));
+  const points = new cudf.DataFrame({ x, y, });
 
   const [xMin, xMax] = points.get('x').minmax();
   const [yMin, yMax] = points.get('y').minmax();

@@ -14,7 +14,7 @@
     "test-read-points-arrow": "tsx --no-cache test-read-points-arrow.ts",
     "test-read-points-parquet": "tsx --no-cache test-read-points-parquet.ts",
     "pip": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/pip.js",
-    "p2np": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/p2np.js"
+    "streets": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/streets.js"
   },
   "dependencies": {
     "@deck.gl/layers": "8.8.10",

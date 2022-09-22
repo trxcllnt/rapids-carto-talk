@@ -82,8 +82,8 @@ function parseLineStrings(geom: cudf.Series<cudf.Utf8String>) {
       .partition(' ');
 
     return new cudf.DataFrame({ x, y })
-      // Cast x/y strings -> Float64
-      .castAll(new cudf.Float64)
+      // Cast x/y strings -> Float32
+      .castAll(new cudf.Float32)
       // Return the DataFrame as a Struct column
       .asStruct();
   }, [geom]);

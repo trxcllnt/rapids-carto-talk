@@ -20,7 +20,7 @@ export class ColorMapper {
   private declare _h: number;
   private declare _s: number;
   private declare _v: number;
-  private declare _map: any;
+  private declare _map: { [key: number]: [number, number, number, number] };
   constructor(hue = 0.99, saturation = 0.99, brightness = 0.99) {
     this._h = hue % 1;
     this._s = saturation % 1;

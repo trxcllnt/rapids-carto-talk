@@ -12,27 +12,17 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as fs from 'fs';
-import * as Path from 'path';
-import * as arrow from 'apache-arrow';
 import * as cudf from '@rapidsai/cudf';
 
-const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
+// Initialize GPU before measuring timings
+cudf.Series.new([1, 2, 3]).sum();
 
-type NYCCenterlineSchema = {
-  name: cudf.Utf8String,
-  multiline: cudf.List<cudf.List<cudf.Struct<{
-    x: cudf.Float64,
-    y: cudf.Float64
-  }>>>
-};
+import { readPoints } from './src/read-points';
 
-export function readStreets(path = Path.resolve(__dirname, up, 'data', 'centerline.arrow')) {
+console.time('read points runtime');
 
-  const table = arrow.tableFromIPC<NYCCenterlineSchema>(fs.readFileSync(path));
+const points = readPoints();
 
-  return new cudf.DataFrame({
-    name: table.getChild('name')!,
-    multiline: table.getChild('multiline')!
-  });
-}
+console.timeEnd('read points runtime');
+
+console.log(require('util').inspect(points));

@@ -1,8 +1,12 @@
 {
 	"folders": [
 		{
-			"name": "repo",
+			"name": "rapids-carto-talk",
 			"path": "."
+		},
+		{
+            "name": "datasets",
+			"path": "modules/datasets",
 		},
 		{
             "name": "json-graph",
@@ -11,10 +15,6 @@
 		{
             "name": "nyc-taxi",
 			"path": "modules/nyc-taxi",
-		},
-		{
-            "name": "marine-ais",
-			"path": "modules/marine-ais",
 		}
 	],
   "settings": {}

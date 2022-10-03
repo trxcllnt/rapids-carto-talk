@@ -14,13 +14,12 @@
 
 import * as Path from 'path';
 import * as cudf from '@rapidsai/cudf';
-
-const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
+import datasets from '@rapids-carto-talk/datasets';
 
 const _0 = cudf.Series.new(new Int32Array([0]));
 const _1 = cudf.Series.new(new Int32Array([1]));
 
-export function readJSON(quiet = true, path = Path.resolve(__dirname, up, 'data', 'graph.json')) {
+export function readJSON(quiet = true, path = datasets.graph) {
 
   const name = Path.basename(path);
 

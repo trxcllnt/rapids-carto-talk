@@ -12,17 +12,9 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as cudf from '@rapidsai/cudf';
+export const centerline: string;
+export const graph: string;
+export const points: string;
+export const polys: string;
 
-// Initialize GPU before measuring timings
-cudf.Series.new([1, 2, 3]).sum();
-
-import { readPoints } from './src/read-points-arrow';
-
-console.time('read points runtime');
-
-const points = readPoints();
-
-console.timeEnd('read points runtime');
-
-console.log(require('util').inspect(points));
+export default { centerline, graph, points, polys };

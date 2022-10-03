@@ -17,10 +17,11 @@ import * as Path from 'path';
 import * as arrow from 'apache-arrow';
 import * as cudf from '@rapidsai/cudf';
 import * as cuspatial from '@rapidsai/cuspatial';
+import datasets from '@rapids-carto-talk/datasets';
 
 const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
 
-export function readPolys(path = Path.resolve(__dirname, up, 'data', 'polys.arrow')) {
+export function readPolys(path = datasets.polys) {
 
   console.log('readPolys path: ' + path);
 

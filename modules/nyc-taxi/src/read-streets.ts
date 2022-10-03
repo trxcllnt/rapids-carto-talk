@@ -12,14 +12,12 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as Path from 'path';
 import * as cudf from '@rapidsai/cudf';
-
-const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
+import datasets from '@rapids-carto-talk/datasets';
 
 type NYCCenterlineSchema = { the_geom: cudf.Utf8String, FULL_STREE: cudf.Utf8String };
 
-export function readStreets(path = Path.resolve(__dirname, up, 'data', 'lines.csv')) {
+export function readStreets(path = datasets.centerline) {
   return cudf.scope(() => {
 
     // Read the geometry column from the CSV

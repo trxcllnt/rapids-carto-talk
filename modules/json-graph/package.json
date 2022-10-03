@@ -1,14 +1,15 @@
 {
   "private": true,
-  "name": "json-graph",
+  "name": "@rapids-carto-talk/json-graph",
   "version": "1.0.0",
   "author": "Paul Taylor <paul.e.taylor@me.com>",
   "license": "Apache-2.0",
-  "main": "index.ts",
+  "main": "lib/index.js",
   "type": "commonjs",
   "scripts": {
     "build": "tsc -p .",
-    "start": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/index.js",
+    "start": "rimraf lib && tsc -p . && npm run graph",
+    "graph": "node --experimental-vm-modules lib/index.js",
     "test-read": "tsx --no-cache test-read.ts",
     "test-shape": "tsx --no-cache test-shape.ts",
     "test-layout": "tsx --no-cache test-layout.ts"
@@ -18,6 +19,8 @@
     "@rapidsai/cudf": "22.8.1",
     "@rapidsai/cugraph": "22.8.1",
     "@rapidsai/deck.gl": "22.8.1",
+    "@rapidsai/jsdom": "22.8.1",
+    "@rapids-carto-talk/datasets": "1.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"
   },

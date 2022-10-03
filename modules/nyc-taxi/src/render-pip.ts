@@ -23,7 +23,7 @@ import { PolygonLayer } from '@deck.gl/layers/typed';
 
 import { ColorMapper } from './color';
 import { readPolys } from './read-polys';
-import { readPoints } from './read-points-arrow';
+import { readPoints } from './read-points';
 import { makeQuadtree } from './make-tree';
 import { darkOrthoView, centerOnBbox } from './utils';
 

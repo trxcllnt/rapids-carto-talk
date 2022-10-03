@@ -18,7 +18,7 @@ import * as cudf from '@rapidsai/cudf';
 // Initialize GPU before measuring timings
 cudf.Series.new([1, 2, 3]).sum();
 
-import { readPoints } from './src/read-points-arrow';
+import { readPoints } from './src/read-points';
 import { makeQuadtree } from './src/make-tree';
 
 const { bbox, points } = readPoints();
@@ -38,4 +38,4 @@ console.timeEnd(`construct quadtree for ${points.numRows.toLocaleString()} point
 console.log(require('util').inspect((quadtree as any)._quadtree));
 
 
-setTimeout(() => {}, 5000)
+setTimeout(() => { }, 5000)

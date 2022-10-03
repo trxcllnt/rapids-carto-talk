@@ -68,11 +68,6 @@ const data = [...streets.toArrow()].map(({ geom }, i) => {
 
 console.timeEnd(`copy streets DtoH (${streets.numRows.toLocaleString()} streets)`);
 
-// compare to geojson 
-// import * as Path from 'path';
-// const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
-// const data = JSON.parse(require('fs').readFileSync(Path.resolve(__dirname, up, 'data', 'NYC Street Centerline (CSCL).geojson')));
-
 const map = new maplibre.Map({
   interactive: true, container: document.body,
   zoom: 10, pitch: 0, bearing: 0, maxZoom: 20, center,

@@ -16,7 +16,7 @@ import * as rmm from '@rapidsai/rmm';
 import * as cudf from '@rapidsai/cudf';
 import * as cuspatial from '@rapidsai/cuspatial';
 
-type BboxAndPoints = ReturnType<typeof import('./read-points-arrow').readPoints>;
+type BboxAndPoints = ReturnType<typeof import('./read-points').readPoints>;
 
 export function makeQuadtree({ bbox, points }: BboxAndPoints) {
 

@@ -1,0 +1,16 @@
+{
+  "private": true,
+  "name": "@rapids-carto-talk/datasets",
+  "version": "1.0.0",
+  "author": "Paul Taylor <paul.e.taylor@me.com>",
+  "license": "Apache-2.0",
+  "main": "index.js",
+  "type": "commonjs",
+  "types": "index.d.ts",
+  "scripts": {
+    "build": "node download.js"
+  },
+  "dependencies": {
+    "rimraf": "3.0.2"
+  }
+}

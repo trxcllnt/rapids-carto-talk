@@ -1,6 +1,6 @@
 {
   "private": true,
-  "name": "nyc-taxi",
+  "name": "@rapids-carto-talk/nyc-taxi",
   "version": "1.0.0",
   "author": "Paul Taylor <paul.e.taylor@me.com>",
   "license": "Apache-2.0",
@@ -9,10 +9,9 @@
   "scripts": {
     "build": "tsc -p .",
     "test-read-polys": "tsx --no-cache test-read-polys.ts",
+    "test-read-points": "tsx --no-cache test-read-points.ts",
     "test-read-streets": "tsx --no-cache test-read-streets.ts",
     "test-make-quadtree": "tsx --no-cache test-make-quadtree.ts",
-    "test-read-points-arrow": "tsx --no-cache test-read-points-arrow.ts",
-    "test-read-points-parquet": "tsx --no-cache test-read-points-parquet.ts",
     "pip": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/pip.js",
     "streets": "rimraf lib && tsc -p . && node --experimental-vm-modules lib/streets.js"
   },
@@ -22,6 +21,8 @@
     "@rapidsai/cudf": "22.8.1",
     "@rapidsai/cuspatial": "22.8.1",
     "@rapidsai/deck.gl": "22.8.1",
+    "@rapidsai/jsdom": "22.8.1",
+    "@rapids-carto-talk/datasets": "1.0.0",
     "maplibre-gl": "2.4.0"
   },
   "devDependencies": {

@@ -16,10 +16,11 @@ import * as fs from 'fs';
 import * as Path from 'path';
 import * as cudf from '@rapidsai/cudf';
 import * as cuspatial from '@rapidsai/cuspatial';
+import datasets from '@rapids-carto-talk/datasets';
 
 const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
 
-export function readPoints(path = Path.resolve(__dirname, up, 'data', 'points.arrow')) {
+export function readPoints(path = datasets.points) {
 
   type Point = cuspatial.Point<cudf.Float32>['TChildren'];
 

@@ -14,10 +14,9 @@
 
 import * as fs from 'fs';
 import * as Path from 'path';
+import datasets from '@rapids-carto-talk/datasets';
 
-const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
-
-export function readJSON(quiet = true, path = Path.resolve(__dirname, up, 'data', 'graph.json')) {
+export function readJSON(quiet = true, path = datasets.graph) {
 
   const name = Path.basename(path);
 

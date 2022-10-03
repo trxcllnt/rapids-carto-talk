@@ -12,17 +12,13 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as cudf from '@rapidsai/cudf';
+const Path = require('path');
 
-// Initialize GPU before measuring timings
-cudf.Series.new([1, 2, 3]).sum();
+module.exports = {
+  centerline: Path.join(__dirname, 'data', 'centerline.csv'),
+  graph: Path.join(__dirname, 'data', 'graph.json'),
+  points: Path.join(__dirname, 'data', 'points.arrow'),
+  polys: Path.join(__dirname, 'data', 'polys.arrow'),
+};
 
-import { readPoints } from './src/read-points-parquet';
-
-console.time('read Parquet points runtime');
-
-const points = readPoints();
-
-console.timeEnd('read Parquet points runtime');
-
-console.log(require('util').inspect(points));
+module.exports.default = module.exports;

@@ -2,7 +2,7 @@
 
 ```shell
 # Install workspace dependencies
-yarn
+RAPIDSAI_CUDA_VERSION=11 yarn
 
 # Download datasets and compile TS -> JS
 yarn workspaces run build

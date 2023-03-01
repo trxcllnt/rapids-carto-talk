@@ -24,11 +24,7 @@ export function readPoints(path = datasets.points) {
 
   type Point = cuspatial.Point<cudf.Float32>['TChildren'];
 
-  const points = cudf.scope(() =>
-    cudf.DataFrame
-      .fromArrow<Point>(fs.readFileSync(path))
-      .head(1e8 * 1.1)
-  );
+  const points = cudf.DataFrame.fromArrow<Point>(fs.readFileSync(path));
 
   console.log(`read ${points.numRows.toLocaleString()} points`);
 

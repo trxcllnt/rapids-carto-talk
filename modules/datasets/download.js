@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -15,41 +15,67 @@
 const fs = require('fs');
 const Path = require('path');
 const https = require('https');
+const {spawn} = require('child_process');
 const { finished } = require('stream/promises');
 const { pipeline, PassThrough } = require('stream');
 
 (async () => {
 
-  await fs.promises.access(Path.join(__dirname, 'data'), fs.constants.F_OK).catch(() =>
-  /**/  fs.promises.mkdir(Path.join(__dirname, 'data'), { recursive: true, mode: `0755` }));
+  const data = Path.join(__dirname, 'data');
+
+  await fs.promises.access(data, fs.constants.F_OK).catch(() =>
+  /**/  fs.promises.mkdir(data, { recursive: true, mode: `0755` }));
 
   const node_rapdids_data_s3 = `node-rapids-data.s3.us-west-2.amazonaws.com`;
 
-  await finished(pipeline(
-    download(node_rapdids_data_s3, `/graph/graphology.json.gz`),
-    fs.createWriteStream(Path.join(__dirname, 'data', 'graph.json')),
-    (err) => { }
-  ));
+  await checkOrDownload(
+    { md5Hash: '301ab1cf44cacf3665f915738fdbb515', file: Path.join(data, 'graph.json') },
+    { hostname: node_rapdids_data_s3, path: `/graph/graphology.json.gz` },
+  );
 
-  await finished(pipeline(
-    download(node_rapdids_data_s3, `/spatial/263_tracts.arrow.gz`),
-    fs.createWriteStream(Path.join(__dirname, 'data', 'polys.arrow')),
-    (err) => { }
-  ));
+  await checkOrDownload(
+    { md5Hash: 'b63ef3847bc11d9568658ed77b95437e', file: Path.join(data, 'polys.arrow') },
+    { hostname: node_rapdids_data_s3, path: `/spatial/263_tracts.arrow.gz` },
+  );
 
-  await finished(pipeline(
-    download(node_rapdids_data_s3, `/spatial/168898952_points.arrow.gz`),
-    fs.createWriteStream(Path.join(__dirname, 'data', 'points.arrow')),
-    (err) => { }
-  ));
+  await checkOrDownload(
+    { md5Hash: 'f67a641c60924f6828d1992e1a7fc46e', file: Path.join(data, 'points.arrow') },
+    { hostname: node_rapdids_data_s3, path: `/spatial/168898952_points.arrow.gz` },
+  );
 
-  await finished(pipeline(
-    download(`data.cityofnewyork.us`, `/api/views/8rma-cm9c/rows.csv?accessType=DOWNLOAD`),
-    fs.createWriteStream(Path.join(__dirname, 'data', 'centerline.csv')),
-    (err) => { }
-  ));
+  await checkOrDownload(
+    { md5Hash: '268e7a8e7e4811f6bda8214981e9841c', file: Path.join(data, 'centerline.csv') },
+    { hostname: node_rapdids_data_s3, path: `/spatial/nyc-centerline-02-2023.csv.gz` },
+  );
 
 })().catch((e) => console.error(e) || process.exit(1));
+
+function checkOrDownload(
+  { md5Hash, file },
+  { hostname, path },
+) {
+  return fs.promises
+    .stat(file, fs.constants.F_OK)
+    .then(() => new Promise((resolve, reject) => {
+      if (!md5Hash) { return resolve(); }
+      const proc = spawn(`md5sum`, ["-c", "-"]);
+      proc.stdin.write(`${md5Hash}  ${file}`);
+      proc.stdin.end();
+      proc.once('error', (err) => reject(err));
+      proc.once('exit', (code, signal) => {
+        (code || signal) ? reject(code || signal) : resolve();
+      });
+    }))
+    .catch(() => new Promise((resolve, reject) =>
+      finished(
+        pipeline(
+          download(hostname, path),
+          fs.createWriteStream(file),
+          (err) => err && reject(err)
+        )
+      ).then(resolve)
+    ));
+}
 
 function download(hostname, path) {
   const options = {

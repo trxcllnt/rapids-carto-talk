@@ -8,5 +8,25 @@
     "modules/datasets",
     "modules/json-graph",
     "modules/nyc-taxi"
-  ]
+  ],
+  "resolutions": {
+    "**/@deck.gl/aggregation-layers": "8.8.10",
+    "**/@deck.gl/carto": "8.8.10",
+    "**/@deck.gl/core": "8.8.10",
+    "**/@deck.gl/extensions": "8.8.10",
+    "**/@deck.gl/geo-layers": "8.8.10",
+    "**/@deck.gl/google-maps": "8.8.10",
+    "**/@deck.gl/json": "8.8.10",
+    "**/@deck.gl/layers": "8.8.10",
+    "**/@deck.gl/mapbox": "8.8.10",
+    "**/@deck.gl/mesh-layers": "8.8.10",
+    "**/@deck.gl/react": "8.8.10",
+    "**/@luma.gl/constants": "8.5.16",
+    "**/@luma.gl/core": "8.5.16",
+    "**/@luma.gl/engine": "8.5.16",
+    "**/@luma.gl/experimental": "8.5.16",
+    "**/@luma.gl/gltools": "8.5.16",
+    "**/@luma.gl/shadertools": "8.5.16",
+    "**/@luma.gl/webgl": "8.5.16"
+  }
 }

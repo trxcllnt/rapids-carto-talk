@@ -18,10 +18,10 @@
   "dependencies": {
     "@deck.gl/layers": "8.8.10",
     "@deck.gl/mapbox": "8.8.10",
-    "@rapidsai/cudf": "22.8.1",
-    "@rapidsai/cuspatial": "22.8.1",
-    "@rapidsai/deck.gl": "22.8.1",
-    "@rapidsai/jsdom": "22.8.1",
+    "@rapidsai/cudf": "22.8.2",
+    "@rapidsai/cuspatial": "22.8.2",
+    "@rapidsai/deck.gl": "22.8.2",
+    "@rapidsai/jsdom": "22.8.2",
     "@rapids-carto-talk/datasets": "1.0.0",
     "maplibre-gl": "2.4.0"
   },

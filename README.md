@@ -1,8 +1,8 @@
-### Usage:
+# Usage
 
 ```shell
 # Install workspace dependencies
-RAPIDSAI_CUDA_VERSION=11 yarn
+yarn
 
 # Download datasets and compile TS -> JS
 yarn workspaces run build

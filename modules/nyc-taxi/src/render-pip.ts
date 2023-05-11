@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,6 +26,8 @@ import { readPolys } from './read-polys';
 import { readPoints } from './read-points';
 import { makeQuadtree } from './make-tree';
 import { darkOrthoView, centerOnBbox } from './utils';
+
+const maxPointsPerPolygon = 10_000;
 
 // Read the taxi zones dataset into GPU memory
 const { bbox: polys_bbox, polys } = readPolys();
@@ -107,6 +109,20 @@ function taxiZonesLayer(
 
           console.timeEnd('point in polygon runtime');
           console.log(`points in poly ${object.id}:`, polyPointPairs.numRows.toLocaleString());
+
+          if (polyPointPairs.numRows >= maxPointsPerPolygon) {
+            return {
+              hoveredPolyId,
+              polyPointPairs: polyPointPairs.gather(
+                cudf.Series.sequence({
+                  init: 0,
+                  type: new cudf.Float32,
+                  size: maxPointsPerPolygon,
+                  step: polyPointPairs.numRows / maxPointsPerPolygon,
+                }).rint().cast(new cudf.Int32)
+              )
+            };
+          }
 
           return { hoveredPolyId, polyPointPairs };
         }, [polys, quadtree, palette]);

@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -13,12 +13,9 @@
 // limitations under the License.
 
 import * as fs from 'fs';
-import * as Path from 'path';
 import * as cudf from '@rapidsai/cudf';
 import * as cuspatial from '@rapidsai/cuspatial';
 import datasets from '@rapids-carto-talk/datasets';
-
-const up = Path.dirname(__dirname).endsWith('lib') ? Path.join('..', '..') : '..';
 
 export function readPoints(path = datasets.points) {
 

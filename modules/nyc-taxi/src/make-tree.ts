@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,6 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-import * as rmm from '@rapidsai/rmm';
-import * as cudf from '@rapidsai/cudf';
 import * as cuspatial from '@rapidsai/cuspatial';
 
 type BboxAndPoints = ReturnType<typeof import('./read-points').readPoints>;

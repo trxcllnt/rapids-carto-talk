@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,12 +26,14 @@ export function readStreets(path = datasets.centerline) {
       .select(['the_geom', 'FULL_STREE'])
       .rename({ FULL_STREE: 'name', the_geom: 'geom' });
 
-    console.log(streetsAndGeom.numRows.toLocaleString());
+    console.log('number of streets:', streetsAndGeom.numRows.toLocaleString());
 
     // Filter for lines that start with MULTILINESTRING
     const multiLineStreets = streetsAndGeom
       // .assign({ name: streetsAndGeom.get('name').encodeLabels() })
       .filter(streetsAndGeom.get('geom').matchesRe(/MULTILINESTRING\s?/));
+
+    console.log('number of multiline streets:', multiLineStreets.numRows.toLocaleString());
 
     // Parse each geometry string into linestrings (lists of X/Y points)
     const geom = parseLineStrings(multiLineStreets.get('geom'));
@@ -62,9 +64,9 @@ function parseLineStrings(geom: cudf.Series<cudf.Utf8String>) {
       .cumulativeSum().cast(new cudf.Int32);
 
     // Start with a list of zeroes
-    return cudf.Series.sequence({ init: 0, step: 0, size: sums.max() + 1 })
+    return cudf.Series.sequence({ init: 0, step: 0, size: sums.max() })
       // Scatter 1's into place using the cumulative sums above
-      .scatter(1, sums, true)
+      .scatter(1, sums)
       // Cumulative sum to produce the id (i.e. exclusive_scan)
       .cumulativeSum();
   }, [geom]);

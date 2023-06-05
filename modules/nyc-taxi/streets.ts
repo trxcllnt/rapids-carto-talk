@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -18,6 +18,8 @@ const dom = new RapidsJSDOM({
   glfwOptions: { width: 1920, height: 1080 },
 });
 
-dom.window.evalFn(async () => await import('./src/render-streets'));
-
 dom.window.addEventListener('close', () => process.exit(0), { once: true });
+
+Object.assign(dom, {
+  loaded: dom.loaded.then(() => dom.window.evalFn(async () => await import('./src/render-streets'))),
+});

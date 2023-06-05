@@ -16,10 +16,10 @@
   },
   "dependencies": {
     "@deck.gl/react": "8.8.10",
-    "@rapidsai/cudf": "22.8.2",
-    "@rapidsai/cugraph": "22.8.2",
-    "@rapidsai/deck.gl": "22.8.2",
-    "@rapidsai/jsdom": "22.8.2",
+    "@rapidsai/cudf": "22.12.1",
+    "@rapidsai/cugraph": "22.12.1",
+    "@rapidsai/deck.gl": "22.12.1",
+    "@rapidsai/jsdom": "22.12.1",
     "@rapids-carto-talk/datasets": "1.0.0",
     "react": "17.0.2",
     "react-dom": "17.0.2"

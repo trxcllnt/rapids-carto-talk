@@ -1,4 +1,4 @@
-// Copyright (c) 2022, NVIDIA CORPORATION.
+// Copyright (c) 2022-2023, NVIDIA CORPORATION.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,6 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
+import * as fs from 'fs';
 import * as Path from 'path';
 import * as cudf from '@rapidsai/cudf';
 import datasets from '@rapids-carto-talk/datasets';
@@ -25,7 +26,7 @@ export function readJSON(quiet = true, path = datasets.graph) {
 
   !quiet && console.time(`(GPU) read '${name}'`);
 
-  const file = cudf.Series.readText(path, '');
+  const file = cudf.Series.new([fs.readFileSync(path, 'utf-8')]);
 
   !quiet && console.timeEnd(`(GPU) read '${name}'`);
 
